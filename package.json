@@ -10,6 +10,10 @@
       "packages/shared/**"
     ]
   },
+  "scripts":{
+    "start:server": "yarn workspace @monorepo/server start",
+    "start:client": "yarn workspace @monorepo/client start"
+  },
   "devDependencies": {
     "@monorepo/eslint-config": "*"
   }
