@@ -13,4 +13,8 @@ app.get('/', (req, res) => {
   res.json({message: 'Success '});
 });
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 module.exports = app;
