@@ -1,8 +1,14 @@
+import {Home} from './pages/Home'
+import {Header} from './components/Header'
+
+import './styles/global.scss'
+
 const App = () => {
   return(
-    <div>
-      home
-    </div>
+    <>
+      <Header />
+      <Home />
+    </>
   )
 }
 
