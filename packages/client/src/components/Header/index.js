@@ -9,7 +9,7 @@ export const Header = () => {
           <a href="/">Home</a>
         </span>
         <span >
-          <a href="/articles" prefetch>Artigos</a>
+          <a href="/articles">Artigos</a>
         </span>
       </nav>
     </div>
