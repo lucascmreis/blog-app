@@ -12,6 +12,8 @@
 
 
 .article-wrapper{
+  display: flex;
+  flex-direction: column;
   max-width: 800px;
   margin: 0 auto;
   // > span {
@@ -19,16 +21,13 @@
   //   font-weight: bold;
   // }
 
-  // h1 {
-  //   font-size: 4.5rem;
-  //   line-height: 4.5rem;
-  //   font-weight: 900;
-  //   margin-top: 2.5rem;
-
-  //   span {
-  //     color: var(--cyan-500);
-  //   }
-  // }
+  input {
+    font-size: 4.5rem;
+    line-height: 4.5rem;
+    font-weight: 900;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
 
   // p {
   //   font-size: 1.5rem;
@@ -41,8 +40,30 @@
   //   }
   // }
 
-  button {
-    margin-top: 1rem;
-    width: 6rem;
+  .article-title{
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    font-size: 3rem;
   }
+
+  .article-actions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+
+    svg{
+      font-size: 1.5rem;
+      cursor: pointer;
+
+    }
+
+    button {
+      margin: 1rem 2rem;
+      width: 6rem;
+    }
+  }
+
 }
