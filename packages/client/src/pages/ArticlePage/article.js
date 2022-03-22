@@ -1,7 +1,11 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useRef} from 'react'
 import {useParams} from 'react-router-dom'
 
-import Editor from '../../components/Editor'
+import EditorJS from '@editorjs/editorjs';
+import Header from '@editorjs/header';
+import List from '@editorjs/list';
+
+//import Editor from '../../components/Editor'
 
 import {createArticle, updateArticle, getArticle} from '../../services/api'
 
@@ -70,57 +74,88 @@ export const Article = () => {
    }
   }
   const {slug} = useParams()
-  const [editMode, setEditMode] = useState(true)
-  const isNewArticle = slug === 'new'
+  const editorInstance = useRef();
 
+  const [editMode, setEditMode] = useState(true)
   const [article, setArticle] = useState({})
+  const [content, setContent] = useState({});
 
   const handleSaveArticle = async() => {
-    await createArticle(article)
+    const newArticle ={
+      title: 'titulo',
+      slug: 'titulo-slug-5',
+      createdBy: 'Lucas Reis',
+      content: content
+    }
+    console.log('save', content)
+    await createArticle(newArticle)
 
     setEditMode(!editMode)
   }
 
-  const handleUpdateContent = (content) => {
-    const newArticle ={
-      title: 'titulo',
-      slug: 'titulo-slug-4',
-      createdBy: 'Lucas Reis',
-      content: content
-    }
-    setArticle(newArticle)
-  }
-
   const fetchArticleData = async() => {
-    try{
       const {data} = await getArticle(slug)
       const articleData = Object.values(data)
-      setArticle(articleData[0][0] || {})
-    } catch(error){
-      console.log('error', error)
-    }
+      const article = articleData[0][0]
+      console.log('article fetched', article)
+      setContent(article?.content || {})
+      setArticle(article || {})
   }
 
-  const isReady = isNewArticle || Object.values(article).length !== 0
-  console.log('articleready', article)
-  console.log('isReady', isReady)
+  const onChange = api => {
+    (async () => {
+      const content = await api.saver.save();
+      setContent(content)
+     // handleUpdateContent(content)
+    })();
+  };
+
+  const initEditor = () => {
+    const editor = new EditorJS({
+      holder: "editorjs",
+      logLevel: "ERROR",
+      data: content,
+      readOnly: !editMode,
+      minHeight:30,
+      onReady: () => {
+        editorInstance.current = editor;
+      },
+      onChange,
+      autofocus: true,
+      tools: {
+        header: Header,
+        list: List
+      },
+    });
+    return editor
+  };
 
   useEffect(()=>{
     fetchArticleData()
   }, [])
-  console.log('article', article)
+
+  useEffect(() => {
+    if (!editorInstance.current) {
+      initEditor()
+    }
+    return () => {
+      if(editorInstance.current){
+        editorInstance.current.destroy();
+        editorInstance.current = null;
+      }
+
+    }
+  }, [editMode, article])
+
+
   return(
     <>
       <div className="article-container">
           <div className="article-wrapper">
             <button onClick={() => setEditMode(!editMode)}>edit</button>
-          {isReady && (
-            <Editor
-              article={article}
-              editMode={editMode}
-              handleSaveArticle={handleSaveArticle}
-              handleUpdateContent={handleUpdateContent}
-            />)}
+            {editMode && <button onClick={handleSaveArticle}>Salvar</button>}
+            <input type="text" />
+            <div id="editorjs" ></div>
           </div>
       </div>
     </>
