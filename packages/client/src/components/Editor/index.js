@@ -1,36 +1,41 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { default as React, useEffect, useRef } from 'react';
+ /* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect, useRef } from 'react';
+
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
 
 import './styles.scss'
 
-const Editor = ({data={}, editMode, handleSaveArticle, handleUpdateContent }) => {
+const Editor = ({article, editMode, handleSaveArticle, handleUpdateContent }) => {
   const editorInstance = useRef();
+  const [content, setContent] = useState(article.content);
+
+  const onChange = api => {
+    (async () => {
+      const content = await api.saver.save();
+      setContent(content)
+      handleUpdateContent(content)
+    })();
+  };
 
   useEffect(() => {
     if (!editorInstance.current) {
-      initEditor();
+      initEditor()
     }
     return () => {
       editorInstance.current.destroy();
       editorInstance.current = null;
     }
-  }, [editMode]);
 
-  const onChange = api => {
-    (async () => {
-      const content = await api.saver.save();
-      handleUpdateContent(content)
-    })();
-  };
+  }, []);
+
 
   const initEditor = () => {
     const editor = new EditorJS({
       holder: "editorjs",
       logLevel: "ERROR",
-      data: data?.content,
+      data: content,
       readOnly: !editMode,
       minHeight:30,
       onReady: () => {

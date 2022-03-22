@@ -1,14 +1,17 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
+import {useParams} from 'react-router-dom'
+
 import Editor from '../../components/Editor'
 
-import {createArticle, updateArticle} from '../../services/api'
+import {createArticle, updateArticle, getArticle} from '../../services/api'
 
 import './styles.scss'
 
 export const Article = () => {
   const initialData= {
     title: 'titulo',
-    slug: 'titulo-slug',
+    slug: 'titulo-slug-3',
+    createdBy: 'Lucas Reis',
     content:{
       "time": 1550476186479,
       "blocks": [
@@ -66,41 +69,58 @@ export const Article = () => {
       "version": "2.8.1"
    }
   }
+  const {slug} = useParams()
+  const [editMode, setEditMode] = useState(true)
+  const isNewArticle = slug === 'new'
 
- const [editMode, setEditMode] = useState(true)
- const [editorData, setEditorData] = useState(initialData);
+  const [article, setArticle] = useState({})
 
+  const handleSaveArticle = async() => {
+    await createArticle(article)
 
- const handleEditMode = {
-   editMode: editMode,
-   setEditMode: setEditMode
- }
-
- const handleSaveArticle = () => {
-  console.log('save', editorData)
-
-  setEditMode(!editMode)
-}
-
-const handleUpdateContent = (content) => {
-  const updatedArticle ={
-    ...editorData,
-    content: content
+    setEditMode(!editMode)
   }
-  setEditorData(updatedArticle)
-}
 
+  const handleUpdateContent = (content) => {
+    const newArticle ={
+      title: 'titulo',
+      slug: 'titulo-slug-4',
+      createdBy: 'Lucas Reis',
+      content: content
+    }
+    setArticle(newArticle)
+  }
+
+  const fetchArticleData = async() => {
+    try{
+      const {data} = await getArticle(slug)
+      const articleData = Object.values(data)
+      setArticle(articleData[0][0] || {})
+    } catch(error){
+      console.log('error', error)
+    }
+  }
+
+  const isReady = isNewArticle || Object.values(article).length !== 0
+  console.log('articleready', article)
+  console.log('isReady', isReady)
+
+  useEffect(()=>{
+    fetchArticleData()
+  }, [])
+  console.log('article', article)
   return(
     <>
       <div className="article-container">
           <div className="article-wrapper">
             <button onClick={() => setEditMode(!editMode)}>edit</button>
+          {isReady && (
             <Editor
-              data={editorData}
+              article={article}
               editMode={editMode}
               handleSaveArticle={handleSaveArticle}
               handleUpdateContent={handleUpdateContent}
-            />
+            />)}
           </div>
       </div>
     </>

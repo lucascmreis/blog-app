@@ -1,3 +1,4 @@
+import {Link} from 'react-router-dom'
 import './styles.scss'
 
 export const Header = () => {
@@ -6,10 +7,10 @@ export const Header = () => {
     <div className="header-wrapper" >
       <nav>
         <span  >
-          <a href="/">Home</a>
+          <Link to="/">Home</Link>
         </span>
         <span >
-          <a href="/articles">Artigos</a>
+          <Link to="/docs">Artigos</Link>
         </span>
       </nav>
     </div>

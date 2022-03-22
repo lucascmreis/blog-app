@@ -7,6 +7,6 @@ router.get('/', (req, res) => {
   res.send('Works')
 })
 
-router.use('/articles', articlesRoute )
+router.use('/docs', articlesRoute )
 
 module.exports = router

@@ -5,6 +5,10 @@ const ArticleSchema = Schema({
     type: String,
     required: true
   },
+  slug:{
+    type: String,
+    required: true
+  },
   category: {
     type: String,
   },
@@ -12,7 +16,7 @@ const ArticleSchema = Schema({
     type: Array
   },
   content: {
-    type: String,
+    type: Object,
     required: true
   },
   createdBy: {
