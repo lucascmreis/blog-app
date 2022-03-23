@@ -20,15 +20,23 @@ export const ArticlePage = () => {
         <div className="home-wrapper">
           <span>👋🏼 Oie Docs!</span>
           <h1>Ultimos artigos</h1>
-
+          <button>
+            <a href='/docs/new'>
+              Criar novo
+            </a>
+          </button>
           <div className='article-list' >
-            {articles.map(article=>(
+            {articles.lenght > 0 ?
+             articles.map(article=>(
               <a key={article.slug} href={`/docs/${article.slug}`}>
                 <time>{article.createdAt || 'time'}</time>
                 <strong>{article.title}</strong>
               </a>
-            ))}
+            ))
+          : <span>Nenhum artigo por enquanto </span>
+          }
           </div>
+
 
         </div>
       </div>

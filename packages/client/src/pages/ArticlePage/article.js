@@ -80,7 +80,7 @@ export const Article = () => {
   const isNewArticle = slug === 'new'
 
   const [editMode, setEditMode] = useState(true)
-  const [title, setTitle] = useState('title')
+  const [title, setTitle] = useState('')
   const [article, setArticle] = useState({})
   const [content, setContent] = useState({});
 
@@ -158,17 +158,17 @@ export const Article = () => {
 
   return(
     <>
-      <div className="home-container">
-          <div className="home-wrapper">
+      <div className="article-container">
+          <div className="article-wrapper">
             <div className='article-actions' >
-              <AiFillEdit onClick={() => setEditMode(!editMode)} />
               {editMode && <button onClick={handleSaveArticle}>Salvar</button>}
+              {!editMode && <AiFillEdit onClick={() => setEditMode(!editMode)} />}
             </div>
-            <input
+            <textarea
               className='article-title'
-              type="text"
               placeholder='Título'
               value={title}
+              maxLength={55}
               onChange={(e) => setTitle(e.target.value)} />
             <div id="editorjs"></div>
           </div>
