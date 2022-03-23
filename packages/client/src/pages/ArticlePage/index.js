@@ -8,12 +8,14 @@ export const ArticlePage = () => {
   const [articles, setArticles] = useState([])
   const getArticles = async () => {
     const {data} = await fetchArticles()
+    console.log(data)
     setArticles(data.articles)
   }
 
   useEffect(()=>{
     getArticles()
   },[])
+
   return(
     <>
       <div className="home-container">
@@ -26,10 +28,10 @@ export const ArticlePage = () => {
             </a>
           </button>
           <div className='article-list' >
-            {articles.lenght > 0 ?
+            {articles.lenght !== 0 ?
              articles.map(article=>(
               <a key={article.slug} href={`/docs/${article.slug}`}>
-                <time>{article.createdAt || 'time'}</time>
+                <time>{article.updatedAt || 'time'}</time>
                 <strong>{article.title}</strong>
               </a>
             ))

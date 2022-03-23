@@ -88,12 +88,14 @@ export const Article = () => {
     const newArticle ={
       title: title,
       slug: slugify(title),
-      createdBy: 'Lucas Reis',
+      updatedBy: 'username',
       content: content,
-      category: ''
+      category: 'Sobre'
     }
     console.log('save', content)
-    await createArticle(newArticle)
+
+    const response =  await createArticle(newArticle)
+    console.log('response', response)
 
     setEditMode(!editMode)
   }

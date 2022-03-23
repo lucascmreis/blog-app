@@ -7,7 +7,8 @@ const ArticleSchema = Schema({
   },
   slug:{
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   category: {
     type: String,
@@ -19,15 +20,16 @@ const ArticleSchema = Schema({
     type: Object,
     required: true
   },
-  createdBy: {
-    type: String,
-    required: true
-  },
   updatedBy: {
     type: String,
-  }
-
-})
+  },
+},
+{
+  collection: 'articles',
+  timestamps: true,
+  autoIndex: false,
+}
+)
 
 module.exports = model('article', ArticleSchema)
 
