@@ -100,4 +100,12 @@
 #editorjs{
   width: 100%;
   max-width: inherit;
+
+  svg{
+    color: var(--gray-300);
+  }
+.ce-conversion-toolbar{
+  color: var(--gray-800);
 }
+}
+

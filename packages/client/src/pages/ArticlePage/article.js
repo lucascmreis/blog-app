@@ -79,7 +79,7 @@ export const Article = () => {
 
   const isNewArticle = slug === 'new'
 
-  const [editMode, setEditMode] = useState(true)
+  const [editMode, setEditMode] = useState(false)
   const [title, setTitle] = useState('')
   const [article, setArticle] = useState({})
   const [content, setContent] = useState({});
@@ -167,6 +167,8 @@ export const Article = () => {
             <textarea
               className='article-title'
               placeholder='Título'
+              required
+              readOnly={!editMode}
               value={title}
               maxLength={55}
               onChange={(e) => setTitle(e.target.value)} />
