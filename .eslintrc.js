@@ -1,3 +1,3 @@
-const eslintConfig = require('@spacey/eslint-config')
+const eslintConfig = require('@monorepo/eslint-config')
 
 module.exports = eslintConfig
