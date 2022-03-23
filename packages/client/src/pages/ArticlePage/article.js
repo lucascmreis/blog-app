@@ -49,11 +49,15 @@ export const Article = () => {
     }
   }, [])
 
+  useEffect(()=>{
+    setEditMode(isNewArticle)
+  },[isNewArticle])
 
   return(
     <>
           {editMode && (
             <Editor
+              isNewArticle={isNewArticle}
               article={article}
               editMode={editMode}
               handleSaveArticle={handleSaveArticle}

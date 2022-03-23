@@ -7,7 +7,7 @@ import List from '@editorjs/list';
 
 import './styles.scss'
 
-const Editor = ({article, editMode, handleSaveArticle }) => {
+const Editor = ({article, editMode, handleSaveArticle, isNewArticle }) => {
   const editorInstance = useRef();
 
   console.log('article', article)
@@ -25,8 +25,8 @@ const Editor = ({article, editMode, handleSaveArticle }) => {
     const editor = new EditorJS({
       holder: "editorjs",
       logLevel: "ERROR",
-      data: article.content,
-      readOnly: !editMode,
+      data: isNewArticle ? {} : article.content,
+      readOnly: isNewArticle ? false : !editMode,
       minHeight:30,
       placeholder: editMode &&'Escreva aqui...',
       onReady: () => {
