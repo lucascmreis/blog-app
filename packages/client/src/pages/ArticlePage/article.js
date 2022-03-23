@@ -1,16 +1,13 @@
-import {useEffect, useState, useRef} from 'react'
+import {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import slugify from 'react-slugify'
 
 import {AiFillEdit} from 'react-icons/ai'
 
-import EditorJS from '@editorjs/editorjs';
-import Header from '@editorjs/header';
-import List from '@editorjs/list';
-
-import {createArticle, updateArticle, getArticle} from '../../services/api'
+import {createArticle, getArticle} from '../../services/api'
 
 import './styles.scss'
+import Editor from '../../components/Editor';
 
 export const Article = () => {
   // const initialData= {
@@ -75,16 +72,13 @@ export const Article = () => {
   //  }
   // }
   const {slug} = useParams()
-  const editorInstance = useRef();
-
   const isNewArticle = slug === 'new'
 
   const [editMode, setEditMode] = useState(false)
-  const [title, setTitle] = useState('')
+  //const [title, setTitle] = useState('')
   const [article, setArticle] = useState({})
-  const [content, setContent] = useState({});
 
-  const handleSaveArticle = async() => {
+  const handleSaveArticle = async(content, title) => {
     const newArticle ={
       title: title,
       slug: slugify(title),
@@ -106,38 +100,8 @@ export const Article = () => {
       const article = articleData[0][0]
 
       console.log('article fetched', article)
-
-      setContent(article.content || {})
       setArticle(article || {})
-      setTitle(article.title)
   }
-
-  const onChange = api => {
-    (async () => {
-      const content = await api.saver.save();
-      setContent(content)
-    })();
-  };
-
-  const initEditor = () => {
-    const editor = new EditorJS({
-      holder: "editorjs",
-      logLevel: "ERROR",
-      data: content,
-      readOnly: !editMode,
-      minHeight:30,
-      placeholder: 'Escreva aqui...',
-      onReady: () => {
-        editorInstance.current = editor;
-      },
-      onChange,
-      autofocus: true,
-      tools: {
-        header: Header,
-        list: List
-      },
-    });
-  };
 
   useEffect(()=>{
     if(!isNewArticle){
@@ -145,38 +109,15 @@ export const Article = () => {
     }
   }, [])
 
-  useEffect(() => {
-    if (!editorInstance.current) {
-      initEditor()
-    }
-    return () => {
-      if(editorInstance.current){
-        editorInstance.current.destroy();
-        editorInstance.current = null;
-      }
-    }
-  }, [editMode, article])
-
 
   return(
     <>
-      <div className="article-container">
-          <div className="article-wrapper">
-            <div className='article-actions' >
-              {editMode && <button onClick={handleSaveArticle}>Salvar</button>}
-              {!editMode && <AiFillEdit onClick={() => setEditMode(!editMode)} />}
-            </div>
-            <textarea
-              className='article-title'
-              placeholder='Título'
-              required
-              readOnly={!editMode}
-              value={title}
-              maxLength={55}
-              onChange={(e) => setTitle(e.target.value)} />
-            <div id="editorjs"></div>
-          </div>
-      </div>
+
+      <Editor
+        article={article}
+        editMode={editMode}
+        handleSaveArticle={handleSaveArticle}
+      />
     </>
   )
 }

@@ -7,37 +7,28 @@ import List from '@editorjs/list';
 
 import './styles.scss'
 
-const Editor = ({article, editMode, handleSaveArticle, handleUpdateContent }) => {
+const Editor = ({article, editMode, handleSaveArticle }) => {
   const editorInstance = useRef();
-  const [content, setContent] = useState(article.content);
+
+  console.log('article', article)
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState({});
 
   const onChange = api => {
     (async () => {
       const content = await api.saver.save();
       setContent(content)
-      handleUpdateContent(content)
     })();
   };
-
-  useEffect(() => {
-    if (!editorInstance.current) {
-      initEditor()
-    }
-    return () => {
-      editorInstance.current.destroy();
-      editorInstance.current = null;
-    }
-
-  }, []);
-
 
   const initEditor = () => {
     const editor = new EditorJS({
       holder: "editorjs",
       logLevel: "ERROR",
-      data: content,
+      data: article.content,
       readOnly: !editMode,
       minHeight:30,
+      placeholder: editMode &&'Escreva aqui...',
       onReady: () => {
         editorInstance.current = editor;
       },
@@ -50,11 +41,38 @@ const Editor = ({article, editMode, handleSaveArticle, handleUpdateContent }) =>
     });
   };
 
+
+  useEffect(() => {
+    if (!editorInstance.current) {
+      initEditor()
+    }
+    setTitle(article.title)
+    setContent(article.content)
+    return () => {
+      if(editorInstance.current){
+        editorInstance.current.destroy();
+        editorInstance.current = null;
+      }
+    }
+  }, [editMode, article])
   return (
     <>
-      {editMode && <button onClick={handleSaveArticle}>Salvar</button>}
-      <input type="text" />
-      <div id="editorjs" ></div>
+      <div className="article-container">
+          <div className="article-wrapper">
+            <div className='article-actions' >
+              {editMode && <button onClick={()=>handleSaveArticle(content, title)}>Salvar</button>}
+            </div>
+            <textarea
+              className='article-title'
+              placeholder='Título'
+              required
+              readOnly={!editMode}
+              value={title}
+              maxLength={55}
+              onChange={(e) => setTitle(e.target.value)} />
+            <div id="editorjs"></div>
+          </div>
+      </div>
 
     </>
   );

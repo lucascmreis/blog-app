@@ -31,7 +31,13 @@ export const ArticlePage = () => {
             {articles.lenght !== 0 ?
              articles.map(article=>(
               <a key={article.slug} href={`/docs/${article.slug}`}>
-                <time>{article.updatedAt || 'time'}</time>
+                <time>
+                  { new Date(article.updatedAt).toLocaleString('pt-br', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                  })}
+                  </time>
                 <strong>{article.title}</strong>
               </a>
             ))
