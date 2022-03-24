@@ -5,7 +5,7 @@
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
 
 
 }
@@ -75,10 +75,10 @@
 .article-list{
   max-width: 720px;
   min-width: 340px;
-  margin: 5rem auto 0;
+  margin: 5rem auto;
 
   strong {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     font-weight: 900;
   }
   time {
@@ -89,10 +89,8 @@
   }
 
   a{
-
     &:hover{
       color: var(--yellow-500);
-      margin-left: 0.5rem;
       text-decoration: underline;
 
     }

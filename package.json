@@ -4,18 +4,20 @@
   "main": "index.js",
   "license": "MIT",
   "private": true,
-  "workspaces":{
+  "workspaces": {
     "packages": [
       "packages/*",
       "packages/shared/**"
     ]
   },
-  "scripts":{
+  "scripts": {
     "start:server": "yarn workspace @monorepo/server start",
     "start:client": "yarn workspace @monorepo/client start"
   },
   "devDependencies": {
     "@monorepo/eslint-config": "*"
+  },
+  "dependencies": {
+    "react-slugify": "^2.1.0"
   }
-
 }

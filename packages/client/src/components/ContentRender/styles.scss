@@ -1,4 +1,13 @@
 #editorjs{
   margin: 0 auto;
+  width: 100%;
+  max-width: inherit;
+
 }
 
+.codex-editor{
+  width: inherit;
+  display: block;
+  min-width: 720px;
+
+}

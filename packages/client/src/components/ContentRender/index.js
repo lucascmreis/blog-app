@@ -2,6 +2,7 @@
 import {createReactEditorJS} from 'react-editor-js'
 import { EDITOR_JS_TOOLS } from './tools'
 import {AiFillEdit} from 'react-icons/ai'
+
 import './styles.scss'
 
 export const ContentRender = ({article, editMode, setEditMode }) => {
@@ -12,8 +13,9 @@ export const ContentRender = ({article, editMode, setEditMode }) => {
       <div className="article-container">
           <div className="article-wrapper">
             <div className='article-actions' >
-            <AiFillEdit onClick={()=> setEditMode(!editMode)} />
+              <AiFillEdit onClick={()=> setEditMode(!editMode)} />
             </div>
+
             <h1 className='article-title' >{article.title}</h1>
             <EditorView
               data={article.content}
