@@ -2,12 +2,11 @@
 import { useState, useEffect, useRef } from 'react';
 
 import EditorJS from '@editorjs/editorjs';
-import Header from '@editorjs/header';
-import List from '@editorjs/list';
+import { EDITOR_JS_TOOLS } from './tools'
 
 import './styles.scss'
 
-const Editor = ({article, editMode, handleSaveArticle, isNewArticle }) => {
+export const Editor = ({article, editMode, handleSaveArticle, isNewArticle }) => {
   const editorInstance = useRef();
 
   console.log('article', article)
@@ -34,10 +33,7 @@ const Editor = ({article, editMode, handleSaveArticle, isNewArticle }) => {
       },
       onChange,
       autofocus: true,
-      tools: {
-        header: Header,
-        list: List
-      },
+      tools: EDITOR_JS_TOOLS,
     });
   };
 
@@ -77,5 +73,3 @@ const Editor = ({article, editMode, handleSaveArticle, isNewArticle }) => {
     </>
   );
 }
-
-export default Editor;

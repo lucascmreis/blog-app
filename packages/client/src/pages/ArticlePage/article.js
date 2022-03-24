@@ -1,13 +1,12 @@
 import {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import slugify from 'react-slugify'
-import {createReactEditorJS} from 'react-editor-js'
 
 import {createArticle, getArticle} from '../../services/api'
 
 import './styles.scss'
-import Editor from '../../components/Editor';
-import { ContentRender } from '../../components/ContentRender'
+import {Editor} from '../../components/Editor';
+import { ContentRender } from '../../components/Editor/read-only-editor'
 
 export const Article = () => {
   const {slug} = useParams()
